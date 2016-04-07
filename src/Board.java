@@ -14,8 +14,9 @@ import java.awt.BorderLayout;
 
 public class Board{
 	public static final int NUM_OF_TILES = 9;
+	public static final Color BACKGROUND_COLOR = new Color(255, 255, 255);
 	private static int currentPlayer;
-	private static int currentTile;
+	//private static int currentTile;
 	private int currentRound;
 	private int rounds;
 	private int p1wins, p2wins;
@@ -24,11 +25,10 @@ public class Board{
 	
 	private Container cont;
 	private JFrame frame;
-	private static JPanel playing, status;
+	private static JPanel board, playing, status;
 	private Tile[] tiles;
 	
-//	private JButton[] tiles;
-	
+	/*CONSTRUCTOR*/
 	public Board(int rounds, String p1, String p2){
 		this.rounds = rounds;
 		this.currentRound = 0;
@@ -39,15 +39,15 @@ public class Board{
 		this.p1wins = 0;
 		this.p2wins = 0;
 		
-		this.createNewBoard();
+		this.createGameWindow();
 	}
 	
-	private void createNewBoard(){
+	/*METHODS*/
+	private void createGameWindow(){
 		if(this.currentRound%2 == 0) 
 			Board.currentPlayer = 1;
 		else
 			Board.currentPlayer = 2;
-		
 		System.out.println(Board.currentPlayer + " " + this.currentRound);
 		this.frame = new JFrame("Tic-Tac-Toe");
 		this.frame.setResizable(false);
@@ -64,28 +64,29 @@ public class Board{
 		//this.cont.setBackground(new Color(248, 68, 49));
 		
 		Board.playing = new JPanel();
-		Board.playing.add(new JLabel(p1));
-		Board.playing.setBackground(new Color(248, 68, 49));
+		if(currentPlayer == 1) Board.playing.add(new JLabel(p1));
+		else Board.playing.add(new JLabel(p2));
+		Board.playing.setBackground(Board.BACKGROUND_COLOR);
 		
 		
 		Board.status = new JPanel();
 		Board.status.add(new JLabel(p1 + "(P1):" + Integer.toString(this.p1wins)));
 		Board.status.add(new JLabel("       " + "Game " + Integer.toString(currentRound + 1)+ " of "+ Integer.toString(rounds) + "       "));
 		Board.status.add(new JLabel(p2 + "(P2):" + Integer.toString(this.p2wins)));
-		Board.status.setBackground(new Color(248, 68, 49));
+		Board.status.setBackground(Board.BACKGROUND_COLOR);
 		
 		
-		JPanel board = new JPanel(new GridLayout(3,3,10,10));
-		board.setBackground(new Color(248, 68, 49));
+		Board.board = new JPanel(new GridLayout(3,3,10,10));
+		board.setBackground(Board.BACKGROUND_COLOR);
 		this.generateTiles();
 		for(int i = 0; i < Board.NUM_OF_TILES; i++){
 			board.add(tiles[i]);
 		}
 
 		JPanel filler1 = new JPanel();
-		filler1.setBackground(new Color(248, 68, 49));
+		filler1.setBackground(Board.BACKGROUND_COLOR);
 		JPanel filler2 = new JPanel();
-		filler2.setBackground(new Color(248, 68, 49));
+		filler2.setBackground(Board.BACKGROUND_COLOR);
 		
 		panel.add(Board.playing, BorderLayout.PAGE_START);
 		panel.add(Board.status, BorderLayout.PAGE_END);
@@ -107,7 +108,7 @@ public class Board{
 	public void reset(){
 		frame.setVisible(false);
 		frame.dispose();
-		this.createNewBoard(); 
+		this.createGameWindow(); 
 	}
 	
 	public void update(){
@@ -140,27 +141,21 @@ public class Board{
 		return tiles;
 	}
 	*/
+	
+	/*GETTERS*/
 	public static int getCurrentPlayer(){
 		return Board.currentPlayer;
 	}
-	public static void setCurrentTile(int index){
-		Board.currentTile = index;
+
+	public Tile[] getTiles(){
+		return this.tiles;
 	}
-	public static void changeCurrentPlayer(){
-		if(Board.currentPlayer == 1) Board.currentPlayer = 2;
-		else Board.currentPlayer = 1;
-	}
-	private void addScore(int player){
-		if(player == 1) this.p1wins += 1;
-		else if(player == 2) this.p2wins += 1;
-	}
-	private void nextRound(){
-		this.currentRound += 1;
-	}
+
 	public boolean isLastRound(){
 		if(currentRound == rounds-1) return true;
 		else return false;
 	}
+	
 	public boolean checkValue(){
 		boolean isDone = false;
 		for(int i = 0; i < Board.NUM_OF_TILES; i++){
@@ -171,4 +166,25 @@ public class Board{
 		this.reset();
 		return isDone;
 	}
+	
+	/*SETTERS*/
+	/*
+	public static void setCurrentTile(int index){
+		Board.currentTile = index;
+	}
+	*/
+	public static void changeCurrentPlayer(){
+		if(Board.currentPlayer == 1) Board.currentPlayer = 2;
+		else Board.currentPlayer = 1;
+	}
+	
+	private void addScore(int player){
+		if(player == 1) this.p1wins += 1;
+		else if(player == 2) this.p2wins += 1;
+	}
+	
+	private void nextRound(){
+		this.currentRound += 1;
+	}
+	
 }

@@ -7,9 +7,16 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+@SuppressWarnings("serial")
+
 public class Tile extends JPanel implements MouseListener{
+	public static final Color IDLE_TILE = new Color(255, 221, 70);
+	public static final Color HOVER_TILE = new Color(255, 228, 104);
+	public static final Color CLICKED_TILE = new Color(255, 215, 34);
+	public static final Color SELECTED_TILE = new Color(137, 96, 207);
+	
 	public static final int TILE_SIZE = 100;
-	private int value, index;
+	private int value, index;			//value is 1 if tile is "O", value is 2 if tile is "X"
 	private Board board;
 	
 	public Tile(int index, Board board){
@@ -17,7 +24,7 @@ public class Tile extends JPanel implements MouseListener{
 		this.index = index;
 		this.board = board;
 		this.setPreferredSize(new Dimension(TILE_SIZE,TILE_SIZE));
-		this.setBackground(new Color(248, 248, 49));
+		this.setBackground(Tile.IDLE_TILE);
 		
 		addMouseListener(this);
 	}
@@ -27,27 +34,27 @@ public class Tile extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if(value == 0) this.setBackground(new Color(248, 248, 100));
+		if(value == 0) this.setBackground(Tile.HOVER_TILE);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if(value == 0) this.setBackground(new Color(248, 248, 49));
+		if(value == 0) this.setBackground(Tile.IDLE_TILE);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(value == 0) this.setBackground(new Color(208, 208, 20));
+		if(value == 0) this.setBackground(Tile.CLICKED_TILE);
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Board.setCurrentTile(this.getIndex());
+		//Board.setCurrentTile(this.getIndex());
 		if(value == 0){
 			value = Board.getCurrentPlayer();
 			this.repaint();
 			Board.changeCurrentPlayer();
 		}
-		this.setBackground(new Color(45, 89, 164));
+		this.setBackground(Tile.SELECTED_TILE);
 		board.update();
 	}
 	
