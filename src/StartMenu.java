@@ -178,7 +178,7 @@ public class StartMenu {
 				name1.getText().equals("Enter your name here..") || 
 					name2.getText().equals("") || 
 						name2.getText().equals("Enter your name here..") || 
-							x%2 == 0)
+							x%2 == 0 || x < 1)
 			StartMenu.start.setEnabled(false);
 		else StartMenu.start.setEnabled(true);
 	}
