@@ -1,4 +1,3 @@
-@SuppressWarnings("unused")
 public class World{
 	private static StartMenu menu;
 	private static Board board;
@@ -11,14 +10,26 @@ public class World{
 	public static void createBoard(int rounds, String name1, String name2){
 		World.board = new Board(rounds, name1, name2);
 
+		
 		World.dCheck = new Checker(1, World.board);
 		World.vCheck = new Checker(2, World.board);
 		World.hCheck = new Checker(3, World.board);
 		
-		World.dCheck.start();
-		World.vCheck.start();
-		World.hCheck.start();
-
+		while(true){
+			try{
+				World.dCheck.start();
+				World.vCheck.start();
+				World.hCheck.start();
+			}catch(Exception e){continue;}
+			break;
+		}
+		/*
+		try{
+			World.dCheck.join();
+			World.vCheck.join();
+			World.hCheck.join();
+		}catch(Exception e){}
+		*/
 		board.start();
 	}
 	public static void newGame(){

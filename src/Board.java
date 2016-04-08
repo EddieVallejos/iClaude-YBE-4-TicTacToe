@@ -24,7 +24,7 @@ public class Board extends Thread{
 	private Container cont;
 	private JFrame frame;
 	private static JPanel board, playing, status;
-	private Tile[] tiles;
+	private Tile[] tiles = new Tile[Board.NUM_OF_TILES];
 	
 	/*CONSTRUCTOR*/
 	public Board(int rounds, String p1, String p2){
@@ -37,6 +37,7 @@ public class Board extends Thread{
 		this.p1wins = 0;
 		this.p2wins = 0;
 		
+		this.generateTiles();
 		this.createGameWindow();
 	}
 	
@@ -77,7 +78,6 @@ public class Board extends Thread{
 	}
 	
 	private void generateTiles(){
-		this.tiles = new Tile[Board.NUM_OF_TILES];
 		for(int i = 0; i < Board.NUM_OF_TILES; i++){
 			this.tiles[i] = new Tile(i, this);
 		}
@@ -146,11 +146,11 @@ public class Board extends Thread{
 			isDone = this.checkBoard();
 		
 			if(isDone){
-				if(Checker.getIsWon()) this.addScore(Checker.getWhoWon());
-				else{
+				if(!Checker.getIsWon()){
 					this.addScore(1);
 					this.addScore(2);
 				}
+				else this.addScore(Checker.getWhoWon());
 				this.nextRound();
 				this.reset();
 			}

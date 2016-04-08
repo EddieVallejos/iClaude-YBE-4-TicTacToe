@@ -54,6 +54,7 @@ public class StartMenu {
 		panel.add(StartMenu.start);
 		panel.add(StartMenu.cancel);
 		
+
 		panel.setBackground(Board.BACKGROUND_COLOR);
 		
 
