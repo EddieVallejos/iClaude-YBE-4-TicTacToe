@@ -32,6 +32,8 @@ public class StartMenu {
 		StartMenu.frame.setVisible(true);
 	}
 	
+	/*Creates menu for input*/
+	
 	private void createMenuWindow(){
 		JPanel panel = new JPanel(new GridLayout(4,4,10,10));
 		
@@ -64,10 +66,9 @@ public class StartMenu {
 		StartMenu.menu.add(Board.createFiller(20, 0), BorderLayout.LINE_START);
 		StartMenu.menu.add(Board.createFiller(20, 0), BorderLayout.LINE_END);
 		StartMenu.cont.add(StartMenu.menu);
-		//String a = rounds.getText();
-		//round = Integer.parseInt(a);
 	}
 	
+	/* Creates start and cancel buttons */
 	private void createButtons(){
 		StartMenu.start = new JButton("START");
 		StartMenu.start.addMouseListener(new MouseListener(){
@@ -123,6 +124,7 @@ public class StartMenu {
 		});
 	}
 	
+	/* Creates text field for input*/
 	private void createTextFields(){
 		StartMenu.name1 = new JTextField("Enter your name here..");
 		StartMenu.name2 = new JTextField("Enter your name here..");
@@ -165,6 +167,7 @@ public class StartMenu {
 		
 	}
 	
+	/* Disables start button if invalid input*/
 	private static void isButtonAvail(){
 		int x = 0;
 		try{

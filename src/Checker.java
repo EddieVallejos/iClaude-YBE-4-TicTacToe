@@ -13,25 +13,29 @@ public class Checker extends Thread{
 		this.board = board;
 	}
 	
+	
+	/*METHODS*/
 	@Override
 	public void run() {
 		while(!board.isLastRound()){
-			if(!Board.getMove() && Checker.isWon) continue;
+			if(board.getTiles() == null) continue;
+			
+			if(!Board.getMove() && Checker.isWon) continue; // checks if user moved and if winner exists
 			switch(this.mode){
-				case 1:	Checker.isWon = diagonalCheck();
+				case 1:	Checker.isWon = diagonalCheck(); //checks diagonal tiles
 						break;
-				case 2:	Checker.isWon = verticalCheck();
+				case 2:	Checker.isWon = verticalCheck(); //checks vertical tiles
 						break;
-				case 3:	Checker.isWon = horizontalCheck();
+				case 3:	Checker.isWon = horizontalCheck(); //checks horizontal tiles
 						break;
 			}
-			Board.isDoneMoving();
+			Board.isDoneMoving(); 
 		}
 	}
 
+	/* Checks diagonal tiles*/
 	private synchronized boolean diagonalCheck(){
 		Tile[] tiles = board.getTiles();
-		//tiles (0, 4, 8) && (2, 4, 6)
 		if((tiles[0].getValue() == tiles[4].getValue() && tiles[4].getValue() == tiles[8].getValue() && tiles[0].getValue() != 0) ||
 				(tiles[2].getValue() == tiles[4].getValue() && tiles[4].getValue() == tiles[6].getValue() && tiles[2].getValue() != 0)){
 			Checker.whoWon = tiles[4].getValue();
@@ -40,9 +44,9 @@ public class Checker extends Thread{
 		return false;
 	}
 
+	/* Checks horizontal tiles */
 	private synchronized boolean horizontalCheck(){
 		Tile[] tiles = board.getTiles();
-		//tiles (0, 1, 2) && (3, 4, 5) && (6, 7, 8)
 		if((tiles[0].getValue() == tiles[1].getValue() && tiles[1].getValue() == tiles[2].getValue()  && tiles[0].getValue() != 0)){
 			Checker.whoWon = tiles[0].getValue();
 			return true;
@@ -57,9 +61,9 @@ public class Checker extends Thread{
 		return false;
 	}
 
+	/* Checks vertical tiles */
 	private synchronized boolean verticalCheck(){
 		Tile[] tiles = board.getTiles();
-		//tiles (0, 3, 6) && (1, 4, 7) && (2, 5, 8)
 		if((tiles[0].getValue() == tiles[3].getValue() && tiles[3].getValue() == tiles[6].getValue() && tiles[0].getValue() != 0)){
 			Checker.whoWon = tiles[0].getValue();
 			return true;
@@ -74,11 +78,13 @@ public class Checker extends Thread{
 		return false;
 	}
 	
+	/* Resets checkers */
 	public static void reset(){
 		Checker.isWon = false;
 		Checker.whoWon = 0;
 	}
-
+	
+	/* GETTERS */
 	public static boolean getIsWon(){
 		return Checker.isWon;
 	}

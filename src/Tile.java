@@ -32,26 +32,26 @@ public class Tile extends JPanel implements MouseListener{
 		addMouseListener(this);
 	}
 	
+	/*METHODS*/
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e) { //tile changes color when hovered
 		if(value == 0) this.setBackground(Tile.HOVER_TILE);
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent e) { //tile changes to original color 
 		if(value == 0) this.setBackground(Tile.IDLE_TILE);
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) { //tile changes color when clicked
 		if(value == 0) this.setBackground(Tile.CLICKED_TILE);
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		//Board.setCurrentTile(this.getIndex());
+	public void mouseReleased(MouseEvent e) { // Displays X or O if tile is empty
 		JLabel label;
 		if(value == 0){
 			value = Board.getCurrentPlayer();
@@ -64,18 +64,11 @@ public class Tile extends JPanel implements MouseListener{
 			Board.changeCurrentPlayer();
 		}
 		this.setBackground(Tile.SELECTED_TILE);
-		board.update();
+		board.update(board.getPlayer1(), board.getPlayer2());
 	}
-	/*
-	@Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setFont(new Font("Arial", Font.BOLD, 30)); 
-        if(value == 1)g.drawString("O", 38, 60);
-        else if(value == 2) g.drawString("X", 38, 60);
-        else return;
-    }
-	*/
+	
+	/*GETTERS*/
+
 	public int getValue(){
 		return this.value;
 	}

@@ -7,6 +7,7 @@ public class World{
 		World.newGame();
 	}
 
+	/*Instantiates a new board*/
 	public static void createBoard(int rounds, String name1, String name2){
 		World.board = new Board(rounds, name1, name2);
 
@@ -15,12 +16,12 @@ public class World{
 		World.vCheck = new Checker(2, World.board);
 		World.hCheck = new Checker(3, World.board);
 		
-		while(true){
+		while(true){ //catches exception for null resource
 			try{
 				World.dCheck.start();
 				World.vCheck.start();
 				World.hCheck.start();
-			}catch(Exception e){continue;}
+			}catch(Exception e){e.printStackTrace();continue;}
 			break;
 		}
 		/*
@@ -32,6 +33,8 @@ public class World{
 		*/
 		board.start();
 	}
+	
+	/*Starts new game*/
 	public static void newGame(){
 		World.menu = new StartMenu();
 	}

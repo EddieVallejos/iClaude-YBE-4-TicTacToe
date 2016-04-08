@@ -42,6 +42,8 @@ public class Board extends Thread{
 	}
 	
 	/*METHODS*/
+	
+	/* Creates game window*/
 	private void createGameWindow(){
 		if(this.currentRound%2 == 0) 
 			Board.currentPlayer = 1;
@@ -57,6 +59,7 @@ public class Board extends Thread{
 		this.frame.setVisible(true);
 	}
 	
+	/* Adds contents to game window*/
 	private void addContents(){
 		JPanel panel = new JPanel(new BorderLayout());
 		this.cont = this.frame.getContentPane();
@@ -77,12 +80,14 @@ public class Board extends Thread{
 		cont.add(panel);
 	}
 	
+	/* Generates tiles*/
 	private void generateTiles(){
 		for(int i = 0; i < Board.NUM_OF_TILES; i++){
 			this.tiles[i] = new Tile(i, this);
 		}
 	}
 	
+	/* Creates header depending on the current player */
 	private void createHeader(){
 		Board.playing = new JPanel();
 		if(currentPlayer == 1) Board.playing.add(new JLabel(p1));
@@ -90,6 +95,7 @@ public class Board extends Thread{
 		Board.playing.setBackground(Board.BACKGROUND_COLOR);
 	}
 	
+	/* Creates status that displays current round and player scores */
 	private void createStatus(){
 		Board.status = new JPanel();
 		Board.status.add(new JLabel(p1 + "(P1):" + Integer.toString(this.p1wins)));
@@ -98,6 +104,7 @@ public class Board extends Thread{
 		Board.status.setBackground(Board.BACKGROUND_COLOR);
 	}
 	
+	/* Creates a 3X3 grid of tiles */
 	private void createGameBoard(){
 		Board.board = new JPanel(new GridLayout(3,3,10,10));
 		Board.board.setBackground(Board.BACKGROUND_COLOR);
@@ -107,6 +114,7 @@ public class Board extends Thread{
 		}
 	}
 	
+	/* Creates filler panels */
 	public static JPanel createFiller(int x, int y){
 		JPanel filler = new JPanel();
 		filler.setPreferredSize(new Dimension(x, y));
@@ -115,6 +123,8 @@ public class Board extends Thread{
 		return filler;
 	}
 	
+	
+	/* Resets game window */
 	public void reset(){
 		frame.setVisible(false);
 		frame.dispose();
@@ -122,11 +132,9 @@ public class Board extends Thread{
 		Checker.reset();
 	}
 	
-	public void update(){
-		Board.updateGameScreen(this.p1, this.p2);
-	}
+	/* Updates status panel*/
 	
-	public static void updateGameScreen(String p1, String p2){
+	public void update(String p1, String p2){
 		String player;
 		if(Board.currentPlayer == 1) player = p1;
 		else player = p2;
@@ -145,8 +153,8 @@ public class Board extends Thread{
 			}catch(Exception e){}
 			isDone = this.checkBoard();
 		
-			if(isDone){
-				if(!Checker.getIsWon()){
+			if(isDone){   // checks if game is done
+				if(!Checker.getIsWon()){  
 					this.addScore(1);
 					this.addScore(2);
 				}
@@ -173,7 +181,8 @@ public class Board extends Thread{
 		return isDone;
 	}
 	
-	private int createWinnerPrompt(){//create this laterz
+	/* Creates window that displays winner and gives option to start a new game */
+	private int createWinnerPrompt(){
 		String winner, message;
 		Object[] option = {
 				"New Game",
@@ -189,30 +198,7 @@ public class Board extends Thread{
 		
 		return JOptionPane.showOptionDialog(null, message, "Congratulations" , JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option[0]);
 	}
-	
-	/*
-	public void checkValue(){
-		int i;
-		System.out.println("What");
-		for(i = 0; i < Board.NUM_OF_TILES; i++){
-			System.out.println(tiles[i].getValue());
-			System.out.println(this.winnerChecker());
-			if(tiles[i].getValue() == 0) return;
-			if(this.winnerChecker() == true) break;
-		}
-		System.out.println("Why");
-
-		if(this.winnerChecker()){
-			this.addScore(Checker.getWhoWon());
-		}else{
-			this.addScore(1);
-			this.addScore(2);
-		}
-		this.nextRound();
-		this.reset();
-	}
-	*/
-	
+		
 	
 	/*GETTERS*/
 	public static int getCurrentPlayer(){
@@ -235,6 +221,12 @@ public class Board extends Thread{
 	public String getWinner(){
 		if(this.p1wins == this.p2wins) return null;
 		return this.p1wins>this.p2wins? p1:p2;
+	}
+	public String getPlayer1(){
+		return this.p1;
+	}
+	public String getPlayer2(){
+		return this.p2;
 	}
 	
 	/*SETTERS*/
