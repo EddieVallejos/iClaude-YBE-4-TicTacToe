@@ -1,14 +1,16 @@
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @SuppressWarnings("serial")
-
 public class Tile extends JPanel implements MouseListener{
 	public static final Color IDLE_TILE = new Color(255, 221, 70);
 	public static final Color HOVER_TILE = new Color(255, 228, 104);
@@ -23,8 +25,9 @@ public class Tile extends JPanel implements MouseListener{
 		this.value = 0;
 		this.index = index;
 		this.board = board;
-		this.setPreferredSize(new Dimension(TILE_SIZE,TILE_SIZE));
+		this.setLayout(new BorderLayout());
 		this.setBackground(Tile.IDLE_TILE);
+		this.setPreferredSize(new Dimension(TILE_SIZE,TILE_SIZE));
 		
 		addMouseListener(this);
 	}
@@ -49,15 +52,21 @@ public class Tile extends JPanel implements MouseListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		//Board.setCurrentTile(this.getIndex());
+		JLabel label;
 		if(value == 0){
 			value = Board.getCurrentPlayer();
-			this.repaint();
+			//this.repaint();
+			if(Board.getCurrentPlayer() == 1) label = new JLabel("O", SwingConstants.CENTER);
+			else label = new JLabel("X", SwingConstants.CENTER);
+			label.setFont(new Font("Arial", Font.BOLD, 30));
+			this.add(label, BorderLayout.CENTER);
+			Board.isMoving();
 			Board.changeCurrentPlayer();
 		}
 		this.setBackground(Tile.SELECTED_TILE);
 		board.update();
 	}
-	
+	/*
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -66,7 +75,7 @@ public class Tile extends JPanel implements MouseListener{
         else if(value == 2) g.drawString("X", 38, 60);
         else return;
     }
-
+	*/
 	public int getValue(){
 		return this.value;
 	}
