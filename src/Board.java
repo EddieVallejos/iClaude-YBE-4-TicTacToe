@@ -149,7 +149,7 @@ public class Board extends Thread{
 		Board.move = false;
 		do{
 			try{
-				Thread.sleep(10);
+				Thread.sleep(20);
 			}catch(Exception e){}
 			isDone = this.checkBoard();
 		
@@ -157,8 +157,7 @@ public class Board extends Thread{
 				if(!Checker.getIsWon()){  
 					this.addScore(1);
 					this.addScore(2);
-				}
-				else this.addScore(Checker.getWhoWon());
+				} else this.addScore(Checker.getWhoWon());
 				this.nextRound();
 				this.reset();
 			}
